@@ -1,0 +1,77 @@
+use anyhow::Result;
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+pub struct Response {
+    pub photoset: PhotosetList,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct PhotosetList {
+    pub id: String,
+    pub primary: String,
+    pub owner: String,
+    pub ownername: String,
+    pub photo: Vec<Photo>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Photo {
+    pub id: String,
+    pub secret: String,
+    pub server: String,
+    pub title: String,
+    pub isprimary: String,
+}
+
+impl Response {
+    pub fn from_response(response: String) -> Result<Response> {
+        let res = serde_json::from_str(&response)?;
+        Ok(res)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parse_get_photosets_response() {
+        let got = Response::from_response(get_photosets_response()).unwrap();
+        println!("{:?}", got);
+
+        assert_eq!(got.photoset.id, "72157712467772973");
+    }
+
+    fn get_photosets_response() -> String {
+        "{
+  \"photoset\": {
+    \"id\": \"72157712467772973\",
+    \"primary\": \"49312283763\",
+    \"owner\": \"54171525@N00\",
+    \"ownername\": \"aaronosau.us\",
+    \"photo\": [
+      {
+        \"id\": \"49312283763\",
+        \"secret\": \"ABCD1234\",
+        \"server\": \"65535\",
+        \"farm\": 66,
+        \"title\": \"A lonely tree has keept some leaves 1/366\",
+        \"isprimary\": \"1\",
+        \"ispublic\": 1,
+        \"isfriend\": 0,
+        \"isfamily\": 0
+      }
+    ],
+    \"page\": 1,
+    \"per_page\": 500,
+    \"perpage\": 500,
+    \"pages\": 1,
+    \"title\": \"2020 - 366 project\",
+    \"total\": 46
+  },
+  \"stat\": \"ok\"
+}"
+        .to_owned()
+    }
+}

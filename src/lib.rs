@@ -1,3 +1,6 @@
+mod photosets_get;
+mod photosets_list;
+
 #[cfg(test)]
 mod tests {
     #[test]
