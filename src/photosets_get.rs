@@ -41,9 +41,47 @@ impl Response {
     }
 }
 
+impl Photoset {
+    pub fn ids(&self) -> Vec<String> {
+        self.photo
+            .iter()
+            .map(|p| p.id.to_owned())
+            .collect::<Vec<String>>()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_ids() {
+        let ps = Photoset {
+            id: "1234".to_owned(),
+            primary: "abcd".to_owned(),
+            owner: "abcd".to_owned(),
+            ownername: "abcd".to_owned(),
+            photo: vec![
+                Photo {
+                    id: "1".to_string(),
+                    secret: "abcd".to_owned(),
+                    server: "abcd".to_owned(),
+                    title: "abcd".to_owned(),
+                    isprimary: "true".to_owned(),
+                },
+                Photo {
+                    id: "2".to_string(),
+                    secret: "abcd".to_owned(),
+                    server: "abcd".to_owned(),
+                    title: "abcd".to_owned(),
+                    isprimary: "true".to_owned(),
+                },
+            ],
+        };
+        let expected = vec!["1".to_owned(), "2".to_owned()];
+
+        assert_eq!(ps.ids(), expected)
+    }
 
     #[test]
     fn parse_get_photosets_response() {
