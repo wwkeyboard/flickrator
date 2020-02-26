@@ -40,6 +40,7 @@ impl Config {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn list_url() {
         assert_eq!(
@@ -48,6 +49,17 @@ mod tests {
                 api_key : "abcd".to_string(),
             }.photosets_list_url(),
             "https://www.flickr.com/services/rest/?method=flickr.photosets.getList&format=json&api_key=abcd&user_id=1234"
+        );
+    }
+
+    #[test]
+    fn get_url() {
+        assert_eq!(
+            Config {
+                user_id : "1234".to_string(),
+                api_key : "abcd".to_string(),
+            }.photosets_get_url("5678".to_string()),
+            "https://www.flickr.com/services/rest/?method=flickr.photosets.getPhotos&format=json&api_key=abcd&user_id=1234&photoset_id=5678"
         );
     }
 }
