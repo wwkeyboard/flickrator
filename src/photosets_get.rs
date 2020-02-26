@@ -1,13 +1,14 @@
+use crate::Config;
 use anyhow::Result;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct Response {
-    pub photoset: PhotosetList,
+    pub photoset: Photoset,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct PhotosetList {
+pub struct Photoset {
     pub id: String,
     pub primary: String,
     pub owner: String,
@@ -29,6 +30,15 @@ impl Response {
         let res = serde_json::from_str(&response)?;
         Ok(res)
     }
+
+    pub async fn get(config: Config, id: String) -> Result<Photoset> {
+        let url = config.photosets_get_url(id);
+        let resp = reqwest::get(&url).await?.text().await?;
+        let resp = crate::strip_js_function(resp);
+
+        let ps = Response::from_response(resp)?;
+        Ok(ps.photoset)
+    }
 }
 
 #[cfg(test)]
@@ -41,6 +51,7 @@ mod tests {
         println!("{:?}", got);
 
         assert_eq!(got.photoset.id, "72157712467772973");
+        assert_eq!(got.photoset.photo.len(), 1);
     }
 
     fn get_photosets_response() -> String {

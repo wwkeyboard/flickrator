@@ -37,12 +37,16 @@ impl Config {
     }
 }
 
+fn strip_js_function(json: String) -> String {
+    json[14..(json.len() - 1)].to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn list_url() {
+    fn test_list_url() {
         assert_eq!(
             Config {
                 user_id : "1234".to_string(),
@@ -53,7 +57,7 @@ mod tests {
     }
 
     #[test]
-    fn get_url() {
+    fn test_get_url() {
         assert_eq!(
             Config {
                 user_id : "1234".to_string(),
@@ -61,5 +65,11 @@ mod tests {
             }.photosets_get_url("5678".to_string()),
             "https://www.flickr.com/services/rest/?method=flickr.photosets.getPhotos&format=json&api_key=abcd&user_id=1234&photoset_id=5678"
         );
+    }
+
+    #[test]
+    fn test_strip_js_function() {
+        let dat = "jsonFlickrApi({\"foo\": \"bar\"})".to_string();
+        let got = strip_js_function(dat);
     }
 }
