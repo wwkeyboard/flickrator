@@ -39,3 +39,48 @@ pub struct Photoset {
 pub struct Title {
     pub _content: String,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn list_photosets_response() -> String {
+        "{
+            \"photosets\": {
+                \"page\": 1,
+                \"pages\": 1,
+                \"perpage\": 500,
+                \"total\": 1,
+                \"photoset\": [
+                    {
+                        \"id\": \"72157712467772973\",
+                        \"owner\": \"54171525@N00\",
+                        \"username\": \"aaronosau.us\",
+                        \"primary\": \"49312283763\",
+                        \"secret\": \"4f8618f484\",
+                        \"server\": \"65535\",
+                        \"farm\": 66,
+                        \"count_views\": \"5\",
+                        \"count_comments\": \"0\",
+                        \"count_photos\": 46,
+                        \"count_videos\": 0,
+                        \"title\": {
+                            \"_content\": \"2020 - 366 project\"
+                        },
+                        \"description\": {
+                            \"_content\": \"\"
+                        },
+                        \"can_comment\": 0,
+                        \"date_create\": \"1577922046\",
+                        \"date_update\": \"1581821103\",
+                        \"photos\": 46,
+                        \"videos\": 0,
+                        \"visibility_can_see_set\": 1,
+                        \"needs_interstitial\": 0
+                    }
+                ]
+            }
+        }"
+        .to_owned()
+    }
+}

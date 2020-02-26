@@ -1,6 +1,8 @@
 mod photosets_get;
 mod photosets_list;
 
+pub use photosets_get::Response;
+
 const BASE_URL: &str = "https://www.flickr.com/services/rest/";
 
 pub struct Config {
