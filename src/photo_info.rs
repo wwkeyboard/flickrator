@@ -30,6 +30,15 @@ impl Response {
         let res = serde_json::from_str(&response)?;
         Ok(res)
     }
+
+    pub fn tags(&self) -> Vec<String> {
+        self.photo
+            .tags
+            .tag
+            .into_iter()
+            .map(|&t| t.raw.to_owned())
+            .collect::<Vec<String>>()
+    }
 }
 
 #[cfg(test)]
