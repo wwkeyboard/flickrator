@@ -1,0 +1,88 @@
+{
+    "photo": {
+        "id": "49527151056",
+        "secret": "acbd",
+        "server": "65535",
+        "farm": 66,
+        "dateuploaded": "1581542898",
+        "isfavorite": 0,
+        "license": "0",
+        "safety_level": "0",
+        "rotation": 0,
+        "originalsecret": "acbd1234",
+        "originalformat": "jpg",
+        "owner": {
+            "nsid": "54171525@N00",
+            "username": "aaronosau.us",
+            "realname": "Aaron Lee",
+            "location": "",
+            "iconserver": "1757",
+            "iconfarm": 2,
+            "path_alias": null
+        },
+        "title": {
+            "_content": "Urbana Clock 41\/366"
+        },
+        "description": {
+            "_content": "I removed a weird branch from the right side of this image, but I think the little bit of tree on the left helps balance the clock. However I think it needs something else to help the overall balance of the image."
+        },
+        "visibility": {
+            "ispublic": 1,
+            "isfriend": 0,
+            "isfamily": 0
+        },
+        "dates": {
+            "posted": "1581542898",
+            "taken": "2020-02-10 13:26:54",
+            "takengranularity": "0",
+            "takenunknown": "0",
+            "lastupdate": "1582840254"
+        },
+        "views": "72",
+        "editability": {
+            "cancomment": 0,
+            "canaddmeta": 0
+        },
+        "publiceditability": {
+            "cancomment": 1,
+            "canaddmeta": 0
+        },
+        "usage": {
+            "candownload": 1,
+            "canblog": 0,
+            "canprint": 0,
+            "canshare": 1
+        },
+        "comments": {
+            "_content": "0"
+        },
+        "notes": {
+            "note": []
+        },
+        "people": {
+            "haspeople": 0
+        },
+        "tags": {
+            "tag": [
+                {
+                    "id": "1603407-49527151056-641",
+                    "author": "54171525@N00",
+                    "authorname": "aaronosau.us",
+                    "raw": "clock",
+                    "_content": "clock",
+                    "machine_tag": false
+                }
+            ]
+        },
+        "urls": {
+            "url": [
+                {
+                    "type": "photopage",
+                    "_content": "https:\/\/www.flickr.com\/photos\/54171525@N00\/49527151056\/"
+                }
+            ]
+        },
+        "media": "photo"
+    },
+    "stat": "ok"
+}
