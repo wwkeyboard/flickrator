@@ -86,7 +86,6 @@ mod tests {
     #[test]
     fn parse_get_photosets_response() {
         let got = Response::from_response(get_photosets_response()).unwrap();
-        println!("{:?}", got);
 
         assert_eq!(got.photoset.id, "72157712467772973");
         assert_eq!(got.photoset.photo.len(), 1);

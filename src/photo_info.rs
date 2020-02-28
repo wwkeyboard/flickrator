@@ -9,7 +9,14 @@ pub struct Response {
 #[derive(Deserialize, Debug)]
 pub struct Photo {
     pub id: String,
-    pub tags: Vec<Tag>,
+    pub tags: Tags,
+}
+
+// This is because of the screwy JSON format, I'm sure there is
+// a better way to have Serde handle it. But that's a TODO for later.
+#[derive(Deserialize, Debug)]
+pub struct Tags {
+    pub tag: Vec<Tag>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -28,13 +35,15 @@ impl Response {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::fs::File;
+    use std::fs;
+
+    #[test]
     fn test_parse_get_photo_info() {
         let got = Response::parse(get_photo_info_response());
-        println!(got);
+        println!("---{:#?}", got);
     }
 
     fn get_photo_info_response() -> String {
-        let file = File::open("../test_data/get_photo.json").unwrap();
+        fs::read_to_string("./test_data/get_photo.json").unwrap()
     }
 }
