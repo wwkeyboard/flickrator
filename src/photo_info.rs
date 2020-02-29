@@ -35,8 +35,8 @@ impl Response {
         self.photo
             .tags
             .tag
-            .into_iter()
-            .map(|&t| t.raw.to_owned())
+            .iter()
+            .map(|t| t.raw.to_owned())
             .collect::<Vec<String>>()
     }
 }
@@ -48,8 +48,14 @@ mod tests {
 
     #[test]
     fn test_parse_get_photo_info() {
-        let got = Response::parse(get_photo_info_response());
-        println!("---{:#?}", got);
+        let got = Response::parse(get_photo_info_response()).unwrap();
+        assert_eq!(got.photo.id, "49527151056");
+    }
+
+    #[test]
+    fn test_collect_tags() {
+        let got = Response::parse(get_photo_info_response()).unwrap();
+        assert_eq!(got.tags(), vec!["clock"]);
     }
 
     fn get_photo_info_response() -> String {
