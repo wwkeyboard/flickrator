@@ -39,6 +39,14 @@ impl Config {
             id
         )
     }
+
+    pub fn photo_info_get_url(&self, id: String) -> String {
+        format!(
+            "{}&photo_id={}",
+            self.base_url("flickr.photos.getInfo".to_owned()),
+            id
+        )
+    }
 }
 
 fn strip_js_function(json: String) -> String {
@@ -72,8 +80,19 @@ mod tests {
     }
 
     #[test]
+    fn test_get_photo_info_url() {
+        assert_eq!(
+            Config {
+                user_id: "1234".to_string(),
+                api_key: "abcd".to_string(),
+            }.photo_info_get_url("5678".to_string()),
+            "https://www.flickr.com/services/rest/?method=flickr.photos.getInfo&format=json&api_key=abcd&photo_id=5678"
+        )
+    }
+
+    #[test]
     fn test_strip_js_function() {
         let dat = "jsonFlickrApi({\"foo\": \"bar\"})".to_string();
-        let got = strip_js_function(dat);
+        let _got = strip_js_function(dat);
     }
 }

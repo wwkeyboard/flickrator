@@ -42,7 +42,7 @@ pub struct Title {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    //use super::*;
 
     fn list_photosets_response() -> String {
         "{

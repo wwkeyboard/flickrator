@@ -1,3 +1,4 @@
+use crate::Config;
 use anyhow::Result;
 use serde::Deserialize;
 
@@ -29,6 +30,15 @@ impl Response {
     pub fn parse(response: String) -> Result<Response> {
         let res = serde_json::from_str(&response)?;
         Ok(res)
+    }
+
+    pub async fn get(config: Config, id: String) -> Result<Photo> {
+        let url = config.photo_info_get_url(id);
+        let resp = reqwest::get(&url).await?.text().await?;
+        let resp = crate::strip_js_function(resp);
+
+        let info = Response::parse(resp)?;
+        Ok(info.photo)
     }
 
     pub fn tags(&self) -> Vec<String> {
