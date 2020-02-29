@@ -31,7 +31,7 @@ impl Response {
         Ok(res)
     }
 
-    pub async fn get(config: Config, id: String) -> Result<Photoset> {
+    pub async fn get(config: &Config, id: String) -> Result<Photoset> {
         let url = config.photosets_get_url(id);
         let resp = reqwest::get(&url).await?.text().await?;
         let resp = crate::strip_js_function(resp);
