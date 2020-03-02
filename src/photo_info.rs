@@ -1,5 +1,6 @@
 use crate::Config;
 use anyhow::Result;
+use chrono::{DateTime, Utc};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -11,6 +12,13 @@ pub struct Response {
 pub struct Photo {
     pub id: String,
     pub tags: Tags,
+    pub dates: Dates,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Dates {
+    #[serde(with = "taken_date_format")]
+    pub taken: DateTime<Utc>,
 }
 
 // This is because of the screwy JSON format, I'm sure there is
@@ -51,6 +59,22 @@ impl Response {
     }
 }
 
+mod taken_date_format {
+    use chrono::{DateTime, TimeZone, Utc};
+    use serde::{self, Deserialize, Deserializer};
+
+    const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S";
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Utc.datetime_from_str(&s, FORMAT)
+            .map_err(serde::de::Error::custom)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -66,6 +90,12 @@ mod tests {
     fn test_collect_tags() {
         let got = Response::parse(get_photo_info_response()).unwrap();
         assert_eq!(got.tags(), vec!["clock"]);
+    }
+
+    #[test]
+    fn test_parse_taken_date() {
+        let got = Response::parse(get_photo_info_response()).unwrap();
+        println!("{:#?}", got.photo.dates);
     }
 
     fn get_photo_info_response() -> String {
