@@ -4,6 +4,7 @@ mod photosets_list;
 
 pub use photo_info::Response as PIGetResponse;
 pub use photosets_get::Response as PSGetResponse;
+pub use photosets_list::ListPhotosetsResult;
 
 const BASE_URL: &str = "https://www.flickr.com/services/rest/";
 

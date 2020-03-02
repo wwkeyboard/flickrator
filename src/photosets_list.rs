@@ -1,4 +1,6 @@
+use anyhow::Result;
 use serde::Deserialize;
+
 /// Container for the JSON returned from the API for a photoset Should
 /// probably not have this be public. This is an artifact of my not
 /// knowing Serde well enough.
@@ -40,9 +42,26 @@ pub struct Title {
     pub _content: String,
 }
 
+impl ListPhotosetsResult {
+    pub fn parse(response: String) -> Result<ListPhotosetsResult> {
+        let res = serde_json::from_str(&response)?;
+        Ok(res)
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    //use super::*;
+    use super::*;
+
+    #[test]
+    fn test_parse_photosets_response() {
+        let res = ListPhotosetsResult::parse(list_photosets_response()).unwrap();
+
+        assert_eq!(
+            res.photosets.photoset.first().unwrap().id,
+            "72157712467772973"
+        )
+    }
 
     fn list_photosets_response() -> String {
         "{
