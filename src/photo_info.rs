@@ -13,6 +13,7 @@ pub struct Photo {
     pub id: String,
     pub tags: Tags,
     pub dates: Dates,
+    pub urls: URLs,
 }
 
 #[derive(Deserialize, Debug)]
@@ -32,6 +33,19 @@ pub struct Tags {
 pub struct Tag {
     pub raw: String,
     pub _content: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct URLs {
+    pub url: Vec<URL>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct URL {
+    #[serde(rename = "type")]
+    pub kind: String,
+    #[serde(rename = "_content")]
+    pub content: String,
 }
 
 impl Response {
@@ -84,6 +98,11 @@ mod tests {
     fn test_parse_get_photo_info() {
         let got = Response::parse(get_photo_info_response()).unwrap();
         assert_eq!(got.photo.id, "49527151056");
+
+        assert_eq!(
+            got.photo.urls.url.first().unwrap().content,
+            "https://www.flickr.com/photos/54171525@N00/49527151056/"
+        )
     }
 
     #[test]
