@@ -1,8 +1,7 @@
-mod photo_info;
+pub mod photo_info;
 mod photosets_get;
 mod photosets_list;
 
-pub use photo_info::Response as PIGetResponse;
 pub use photosets_get::Response as PSGetResponse;
 pub use photosets_list::ListPhotosetsResult;
 
