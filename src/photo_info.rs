@@ -11,9 +11,16 @@ pub struct Response {
 #[derive(Deserialize, Debug)]
 pub struct Photo {
     pub id: String,
+    pub title: Title,
     pub tags: Tags,
     pub dates: Dates,
     pub urls: URLs,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Title {
+    #[serde(rename = "_content")]
+    pub content: String,
 }
 
 #[derive(Deserialize, Debug)]
@@ -71,6 +78,18 @@ impl Response {
             .map(|t| t.raw.to_owned())
             .collect::<Vec<String>>()
     }
+
+    pub fn title(&self) -> String {
+        self.photo.title.content.to_owned()
+    }
+
+    pub fn url(&self) -> String {
+        self.photo
+            .urls
+            .url
+            .first()
+            .map_or("".to_owned(), |u| u.content.to_owned())
+    }
 }
 
 mod taken_date_format {
@@ -99,22 +118,21 @@ mod tests {
         let got = Response::parse(get_photo_info_response()).unwrap();
         assert_eq!(got.photo.id, "49527151056");
 
+        assert_eq!(got.photo.dates.taken.date().to_string(), "2020-02-10UTC");
+
         assert_eq!(
-            got.photo.urls.url.first().unwrap().content,
+            got.url(),
             "https://www.flickr.com/photos/54171525@N00/49527151056/"
-        )
+        );
+
+        assert_eq!(got.tags(), vec!("clock"));
+        assert_eq!(got.title(), "Urbana Clock 41/366");
     }
 
     #[test]
     fn test_collect_tags() {
         let got = Response::parse(get_photo_info_response()).unwrap();
         assert_eq!(got.tags(), vec!["clock"]);
-    }
-
-    #[test]
-    fn test_parse_taken_date() {
-        let got = Response::parse(get_photo_info_response()).unwrap();
-        println!("{:#?}", got.photo.dates);
     }
 
     fn get_photo_info_response() -> String {
