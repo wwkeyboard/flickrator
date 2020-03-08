@@ -7,6 +7,7 @@ pub use photosets_list::ListPhotosetsResult;
 
 const BASE_URL: &str = "https://www.flickr.com/services/rest/";
 
+#[derive(Clone)]
 pub struct Config {
     pub user_id: String,
     pub api_key: String,
