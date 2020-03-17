@@ -15,6 +15,7 @@ pub struct Photoset {
     pub ownername: String,
     pub photo: Vec<Photo>,
     pub title: String,
+    pub total: i64,
 }
 
 #[derive(Deserialize, Debug)]
@@ -63,6 +64,7 @@ mod tests {
             owner: "abcd".to_owned(),
             ownername: "abcd".to_owned(),
             title: "abcd".to_owned(),
+            total: 64,
             photo: vec![
                 Photo {
                     id: "1".to_string(),
