@@ -1,5 +1,5 @@
 pub mod photo_info;
-mod photosets_get;
+pub mod photosets_get;
 mod photosets_list;
 
 pub use photosets_get::Response as PSGetResponse;
