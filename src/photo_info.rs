@@ -2,6 +2,7 @@ use crate::Config;
 use anyhow::Result;
 use chrono::{DateTime, Utc};
 use serde::Deserialize;
+use std::fmt;
 
 #[derive(Deserialize, Debug)]
 pub struct Response {
@@ -21,6 +22,12 @@ pub struct Photo {
 pub struct Title {
     #[serde(rename = "_content")]
     pub content: String,
+}
+
+impl fmt::Display for Title {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.content)
+    }
 }
 
 #[derive(Deserialize, Debug)]
