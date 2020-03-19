@@ -36,6 +36,12 @@ pub struct Dates {
     pub taken: DateTime<Utc>,
 }
 
+impl fmt::Display for Dates {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.taken.format("%a, %-e %b %Y"),)
+    }
+}
+
 // This is because of the screwy JSON format, I'm sure there is
 // a better way to have Serde handle it. But that's a TODO for later.
 #[derive(Deserialize, Debug)]
@@ -118,6 +124,7 @@ mod taken_date_format {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::prelude::*;
     use std::fs;
 
     #[test]
@@ -144,5 +151,18 @@ mod tests {
 
     fn get_photo_info_response() -> String {
         fs::read_to_string("./test_data/get_photo.json").unwrap()
+    }
+
+    #[test]
+    fn date_display_fmt() {
+        let d = Dates {
+            taken: Utc.ymd(2020, 2, 3).and_hms(4, 5, 6),
+        };
+        assert_eq!(format!("{}", d), "Mon, 3 Feb 2020");
+
+        let d2 = Dates {
+            taken: Utc.ymd(2020, 2, 14).and_hms(4, 5, 6),
+        };
+        assert_eq!(format!("{}", d2), "Fri, 14 Feb 2020");
     }
 }
