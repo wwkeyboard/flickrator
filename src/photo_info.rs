@@ -103,6 +103,15 @@ impl Response {
             .first()
             .map_or("".to_owned(), |u| u.content.to_owned())
     }
+
+    pub fn date(&self) -> String {
+        format!("{}", self.photo.dates)
+    }
+
+    /*    pub fn thumbnail_url(&self) -> String {
+            "https://live.staticflickr.com/65535/49527151056_9da7f513da_t.jpg"
+        }
+    */
 }
 
 mod taken_date_format {
