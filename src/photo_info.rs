@@ -74,13 +74,13 @@ impl Response {
         Ok(res)
     }
 
-    pub async fn get(config: &Config, id: String) -> Result<Photo> {
+    pub async fn get(config: &Config, id: String) -> Result<Response> {
         let url = config.photo_info_get_url(id);
         let resp = reqwest::get(&url).await?.text().await?;
         let resp = crate::strip_js_function(resp);
 
         let info = Response::parse(resp)?;
-        Ok(info.photo)
+        Ok(info)
     }
 
     pub fn tags(&self) -> Vec<String> {
@@ -107,11 +107,6 @@ impl Response {
     pub fn date(&self) -> String {
         format!("{}", self.photo.dates)
     }
-
-    /*    pub fn thumbnail_url(&self) -> String {
-            "https://live.staticflickr.com/65535/49527151056_9da7f513da_t.jpg"
-        }
-    */
 }
 
 mod taken_date_format {
